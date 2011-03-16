@@ -1,0 +1,41 @@
+$def with (page)
+
+$code:
+    def desc_option(col, get):
+        if col == get.sort:
+            if get.desc == 'off':
+                return 'on'
+            else:
+                return 'off'
+        else:
+            if get.sort == 'title':
+                return 'off'
+            elif get.sort == 'year':
+                return 'on'
+            elif get.sort == 'rating':
+                return 'on'
+            elif get.sort == 'votes':
+                return 'on'
+
+<div>$len(page['data'])</div>
+<table>
+    <thead>
+    <tr>
+        <td><a href="/l?sort=title&desc=$desc_option('title', page['get'])">Title</a></td>
+        <td><a href="/l?sort=year&desc=$desc_option('year', page['get'])">Year</a></td>
+        <td><a href="/l?sort=rating&desc=$desc_option('rating', page['get'])">Rating</a></td>
+        <td><a href="/l?sort=votes&desc=$desc_option('votes', page['get'])">Votes</a></td>
+    </tr>
+    </thead>
+<tbody>
+
+$for movie in page['data']:
+    <tr>
+    <td><a href="/m$movie['ID']">$movie['title']</a></td>
+    <td>($movie['year'])</td>
+    <td>$('%3.1f' % movie['rating'])</td>
+    <td>$movie['votes']</td>
+    </tr>
+
+</tbody>
+</table>

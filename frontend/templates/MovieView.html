@@ -1,0 +1,55 @@
+$def with (movie)
+
+<div>$movie['title'] ($movie['year'])</div>
+
+$if movie['genres']:
+    <div>
+    $for genre in movie['genres']:
+        $genre$((' | ', '')[loop.last])
+    </div>
+
+<div>$('%3.1f' % movie['rating']) ($movie['votes'] votes)</div>
+$if 'top 250 rank' in movie:
+    <div>Top 250: #$movie['top 250 rank']</div>
+<div><a href="http://www.imdb.com/title/tt$movie['ID']/">IMDb</a></div>
+
+$if movie['plot outline']:
+    <div>$movie['plot outline']</div>
+
+$if movie['director']:
+    <div>Director
+    $for person in movie['director']:
+        <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
+    </div>
+
+$if movie['writer']:
+    <div>Writer
+    $for person in movie['writer']:
+        <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
+    </div>
+
+$if movie['producer']:
+    <div>Producer
+    $for person in movie['producer']:
+        <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
+    </div>
+
+$if movie['cast']:
+    <div>Cast</div>
+$for person in movie['cast']:
+    <div><a href="/p$person['ID']">$person['str']</a></div>
+
+$if movie['countries']:
+    <div>Country:
+    $for lang in movie['countries']:
+        $lang$((' | ', '')[loop.last])
+    </div>
+$if movie['languages']:
+    <div>Language:
+    $for lang in movie['languages']:
+        $lang$((' | ', '')[loop.last])
+    </div>
+
+<div>Location</div>
+$for item in movie['item']:
+    <div>$item['dirpath']</div>

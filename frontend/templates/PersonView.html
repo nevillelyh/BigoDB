@@ -1,0 +1,24 @@
+$def with (person)
+
+<div>$person['name']</div>
+<div><a href="http://www.imdb.com/name/nm$person['ID']/">IMDb</a></div>
+
+$if person['director']:
+    <div>Director</div>
+$for movie in person['director']:
+    <div><a href="/m$movie['ID']">$movie['title'] ($movie['year'])</a></div>
+
+$if person['writer']:
+    <div>Writer</div>
+$for movie in person['writer']:
+    <div><a href="/m$movie['ID']">$movie['title'] ($movie['year'])</a></div>
+
+$if person['producer']:
+    <div>Producer</div>
+$for movie in person['producer']:
+    <div><a href="/m$movie['ID']">$movie['title'] ($movie['year'])</a></div>
+
+$if person['cast']:
+    <div>Cast</div>
+$for movie in person['cast']:
+    <div><a href="/m$movie['ID']">$movie['title'] ($movie['year'])</a></div>
