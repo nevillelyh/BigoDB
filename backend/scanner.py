@@ -123,6 +123,8 @@ def is_exclude_dir(dirpath):
     '''Check if a directory should be excluded'''
     if os.path.split(dirpath)[-1].lower() in EXCLUDE_DIRS:
         return True
+    elif os.path.isfile(os.path.join(dirpath, '.bignore')):
+        return True
     else:
         return False
 
