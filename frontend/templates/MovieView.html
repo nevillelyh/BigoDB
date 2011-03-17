@@ -1,54 +1,52 @@
 $def with (movie)
 
-<div>$movie['title'] ($movie['year'])</div>
+$def person_csv(plist):
+    $for person in plist:
+        <a href="/p/$person['ID']">$person['str']</a>$((', ', '')[loop.last])
 
-$if movie['genres']:
-    <div>
-    $for genre in movie['genres']:
-        $genre$((' | ', '')[loop.last])
-    </div>
+$def person_list(plist):
+    $for person in plist:
+        <div><a href="/p/$person['ID']">$person['str']</a></div>
+
+$def person_section(sec, title, style='csv'):
+    $if sec in movie and movie[sec]:
+        $if style == 'csv':
+            <div>$title
+            $:person_csv(movie[sec])
+            </div>
+        $elif style == 'list':
+            <div>$title</div>
+            $:person_list(movie[sec])
+
+$def keyword_bsv(klist):
+    $for keyword in klist:
+        $keyword$((' | ', '')[loop.last])
+
+$def keyword_section(sec, title):
+    $if sec in movie and movie[sec]:
+        <div>$title
+        $:keyword_bsv(movie[sec])
+        </div>
+        
+<div>$movie['title'] ($movie['year'])</div>
+<div><a href="http://www.imdb.com/title/tt$movie['ID']/">IMDb</a></div>
+
+$:keyword_section('genres', 'Genre:')
 
 <div>$('%3.1f' % movie['rating']) ($movie['votes'] votes)</div>
 $if 'top 250 rank' in movie:
     <div>Top 250: #$movie['top 250 rank']</div>
-<div><a href="http://www.imdb.com/title/tt$movie['ID']/">IMDb</a></div>
 
 $if movie['plot outline']:
     <div>$movie['plot outline']</div>
 
-$if movie['director']:
-    <div>Director:
-    $for person in movie['director']:
-        <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
-    </div>
+$:person_section('director', 'Director:', 'csv')
+$:person_section('writer', 'Writer:', 'csv')
+$:person_section('producer', 'Producer:', 'csv')
+$:person_section('cast', 'Cast:', 'list')
 
-$if movie['writer']:
-    <div>Writer:
-    $for person in movie['writer']:
-        <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
-    </div>
-
-$if movie['producer']:
-    <div>Producer:
-    $for person in movie['producer']:
-        <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
-    </div>
-
-$if movie['cast']:
-    <div>Cast:</div>
-$for person in movie['cast']:
-    <div><a href="/p$person['ID']">$person['str']</a></div>
-
-$if movie['countries']:
-    <div>Country:
-    $for lang in movie['countries']:
-        $lang$((' | ', '')[loop.last])
-    </div>
-$if movie['languages']:
-    <div>Language:
-    $for lang in movie['languages']:
-        $lang$((' | ', '')[loop.last])
-    </div>
+$:keyword_section('countries', 'Country:')
+$:keyword_section('languages', 'Language:')
 
 <div>Location:</div>
 $for item in movie['item']:

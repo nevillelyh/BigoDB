@@ -19,7 +19,7 @@ $code:
             elif col == 'mtime':
                 return 'on'
 
-<div>$len(page['data'])</div>
+<div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
 <table>
     <thead>
     <tr>
@@ -32,9 +32,9 @@ $code:
     </thead>
 <tbody>
 
-$for movie in page['data']:
+$for movie in page['list']:
     <tr>
-    <td><a href="/m$movie['ID']">$movie['title']</a></td>
+    <td><a href="/m/$movie['ID']">$movie['title']</a></td>
     <td>($movie['year'])</td>
     <td>$('%3.1f' % movie['rating'])</td>
     <td>$movie['votes']</td>
