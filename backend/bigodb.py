@@ -94,7 +94,7 @@ def add_movie(dirpath, title, year):
 
     if not year:
         year = 0
-    print ('[MATCH] %s %s (%d) ===> %s (%d)' % (title, year, movie['title'], movie['year'])).encode('utf-8')
+    print ('[MATCH] %s %s (%d) ===> %s (%d)' % (dirpath, title, year, movie['title'], movie['year'])).encode('utf-8')
 
 def add_item(coll, item):
     '''Add an IMDBPy item to a collection'''
