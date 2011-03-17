@@ -12,11 +12,11 @@ ia = imdb.IMDb()
 ia.set_proxy('http://localhost:8123/');
 
 def search_movie(title, year):
-    print '[DEBUG] search_movie()...',
+    # print '[DEBUG] search_movie()...',
     start = time.time()
     movie_result = ia.search_movie(title)
     end = time.time()
-    print 'done in %f' % (end - start)
+    # print 'done in %f' % (end - start)
     candidate = []
     if year:
         for m in movie_result:
@@ -29,11 +29,11 @@ def search_movie(title, year):
         return None
 
     for movie in candidate:
-        print '[DEBUG] update()...',
+        # print '[DEBUG] update()...',
         start = time.time()
         ia.update(movie)
         end = time.time()
-        print 'done in %f' % (end - start)
+        # print 'done in %f' % (end - start)
     candidate.sort(reverse=True, key=lambda m:m.get('votes'))
 
     return candidate[0]
@@ -75,20 +75,18 @@ def add_movie(dirpath, title, year):
     imdb_id = nfoutil.extract_imdb_id(nfo)
 
     if imdb_id:
-        print '[DEBUG] get_movie()...',
+        # print '[DEBUG] get_movie()...',
         start = time.time()
         movie = ia.get_movie(imdb_id)
         end = time.time()
-        print 'done in %f' % (end - start)
+        # print 'done in %f' % (end - start)
     else:
         movie = search_movie(title, year)
 
     if not movie:
         # Unidentified
-        print '[UNIDENTIFIED] %s' % dirpath
+        print '[UNKNOWN] %s' % dirpath
         return
-
-    print ('[MATCH] %s ===> %s' % (dirpath, movie['long imdb title'])).encode('utf-8')
 
     db.Library.insert({
         'dirpath': dirpath,
@@ -111,10 +109,14 @@ def add_movie(dirpath, title, year):
             data[key] = encode_object(movie[key])
     db.Movie.insert(data)
 
+    if not year:
+        year = 0
+    print ('[MATCH] %s (%d) ===> %s (%d)' % (title, year, movie['title'], movie['year'])).encode('utf-8')
+
     func_end = time.time()
-    print '[DEBUG] add_movie()... done in %f' % (func_end - func_start)
+    # print '[DEBUG] add_movie()... done in %f' % (func_end - func_start)
     if func_end - func_start > 5:
-        print '[DEBUG] sleep for 10 seconds'
+        # print '[DEBUG] sleep for 10 seconds'
         time.sleep(10)
 
 def add_item(coll, item):
