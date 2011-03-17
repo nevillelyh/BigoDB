@@ -18,20 +18,20 @@ $def person_section(sec, title, style='csv'):
             <div>$title</div>
             $:person_list(movie[sec])
 
-$def keyword_bsv(klist):
+$def keyword_bsv(klist, base):
     $for keyword in klist:
-        $keyword$((' | ', '')[loop.last])
+        <a href="$base/$keyword">$keyword</a>$((' | ', '')[loop.last])
 
-$def keyword_section(sec, title):
+$def keyword_section(sec, title, base):
     $if sec in movie and movie[sec]:
         <div>$title
-        $:keyword_bsv(movie[sec])
+        $:keyword_bsv(movie[sec], base)
         </div>
         
 <div>$movie['title'] ($movie['year'])</div>
 <div><a href="http://www.imdb.com/title/tt$movie['ID']/">IMDb</a></div>
 
-$:keyword_section('genres', 'Genre:')
+$:keyword_section('genres', 'Genre:', '/g')
 
 <div>
 $if 'rating' in movie and 'votes' in movie:
@@ -48,8 +48,8 @@ $:person_section('writer', 'Writer:', 'csv')
 $:person_section('producer', 'Producer:', 'csv')
 $:person_section('cast', 'Cast:', 'list')
 
-$:keyword_section('countries', 'Country:')
-$:keyword_section('languages', 'Language:')
+$:keyword_section('countries', 'Country:', '/c')
+$:keyword_section('languages', 'Language:', '/l')
 
 <div>Location:</div>
 $for item in movie['item']:

@@ -6,9 +6,9 @@ class Model:
     def __init__(self):
         self.db = pymongo.Connection().bigodb
 
-    def getMovies(self, sort, desc):
+    def getMovies(self, sort, desc, filt = {}):
         result = {}
-        for movie in self.db.Movie.find({},
+        for movie in self.db.Movie.find(filt,
                 { 'ID':1, 'title':1, 'year':1, 'rating':1, 'votes':1, }):
             result[movie['ID']] = movie
             result[movie['ID']]['item'] = []

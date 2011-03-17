@@ -15,7 +15,7 @@ $code:
                 desc = ('on', 'off')[get.desc == 'on']
             else:
                 desc = opt
-            head.append((title, '/l?sort=%s&desc=%s' % (key, desc)))
+            head.append((title, '?sort=%s&desc=%s' % (key, desc)))
         return head
 
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
