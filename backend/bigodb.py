@@ -1,6 +1,4 @@
 import os
-import time
-
 import imdb
 import pymongo
 
@@ -12,11 +10,7 @@ ia = imdb.IMDb()
 ia.set_proxy('http://localhost:8123/');
 
 def search_movie(title, year):
-    # print '[DEBUG] search_movie()...',
-    start = time.time()
     movie_result = ia.search_movie(title)
-    end = time.time()
-    # print 'done in %f' % (end - start)
     candidate = []
     if year:
         for m in movie_result:
@@ -29,11 +23,7 @@ def search_movie(title, year):
         return None
 
     for movie in candidate:
-        # print '[DEBUG] update()...',
-        start = time.time()
         ia.update(movie)
-        end = time.time()
-        # print 'done in %f' % (end - start)
     candidate.sort(reverse=True, key=lambda m:m.get('votes'))
 
     return candidate[0]
@@ -63,11 +53,8 @@ def encode_object(obj):
 def add_movie(dirpath, title, year):
     '''Add a movie to BigoDB'''
 
-    func_start = time.time()
-
     # Already added
     if db.Library.find_one({ 'dirpath': dirpath }):
-        print '[SKIP] %s' % dirpath
         return
 
     # Look for IMDb link in .nfo
@@ -75,16 +62,12 @@ def add_movie(dirpath, title, year):
     imdb_id = nfoutil.extract_imdb_id(nfo)
 
     if imdb_id:
-        # print '[DEBUG] get_movie()...',
-        start = time.time()
         movie = ia.get_movie(imdb_id)
-        end = time.time()
-        # print 'done in %f' % (end - start)
     else:
         movie = search_movie(title, year)
 
+    # Unidentified
     if not movie:
-        # Unidentified
         print '[UNKNOWN] %s' % dirpath
         return
 
@@ -111,13 +94,7 @@ def add_movie(dirpath, title, year):
 
     if not year:
         year = 0
-    print ('[MATCH] %s (%d) ===> %s (%d)' % (title, year, movie['title'], movie['year'])).encode('utf-8')
-
-    func_end = time.time()
-    # print '[DEBUG] add_movie()... done in %f' % (func_end - func_start)
-    if func_end - func_start > 5:
-        # print '[DEBUG] sleep for 10 seconds'
-        time.sleep(10)
+    print ('[MATCH] %s %s (%d) ===> %s (%d)' % (title, year, movie['title'], movie['year'])).encode('utf-8')
 
 def add_item(coll, item):
     '''Add an IMDBPy item to a collection'''
