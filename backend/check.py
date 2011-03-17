@@ -15,16 +15,19 @@ def main():
     result = scanner.scan(LIBRARY_DIR)
     for dirpath, title, year in result:
         item = db.Library.find_one({ 'dirpath': dirpath })
+        if year:
+            original = '%s (%d)' % (title, year)
+        else:
+            original = title
+
         if item:
             movie = db.Movie.find_one({ 'ID': item['ID'] })
             if movie:
                 if year:
-                    original = '%s (%d)' % (title, year)
                     matched = movie['long imdb title']
                 else:
-                    original = title
                     matched = movie['title']
-                d = editdist.distance(original, matched.encode('utf-8'))
+                d = editdist.distance(original.lower(), matched.lower().encode('utf-8'))
                 if float(d) / max(len(original), len(matched)) > 0.2:
                     print ('[EDITDIST]\thttp://www.imdb.com/title/tt%s/\t%s ===> %s' % (movie['ID'], original, matched)).encode('utf-8')
         else:
