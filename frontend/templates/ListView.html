@@ -8,13 +8,15 @@ $code:
             else:
                 return 'off'
         else:
-            if get.sort == 'title':
+            if col == 'title':
                 return 'off'
-            elif get.sort == 'year':
+            elif col == 'year':
                 return 'on'
-            elif get.sort == 'rating':
+            elif col == 'rating':
                 return 'on'
-            elif get.sort == 'votes':
+            elif col == 'votes':
+                return 'on'
+            elif col == 'mtime':
                 return 'on'
 
 <div>$len(page['data'])</div>
@@ -25,6 +27,7 @@ $code:
         <td><a href="/l?sort=year&desc=$desc_option('year', page['get'])">Year</a></td>
         <td><a href="/l?sort=rating&desc=$desc_option('rating', page['get'])">Rating</a></td>
         <td><a href="/l?sort=votes&desc=$desc_option('votes', page['get'])">Votes</a></td>
+        <td><a href="/l?sort=mtime&desc=$desc_option('mtime', page['get'])">Modified</a></td>
     </tr>
     </thead>
 <tbody>
@@ -35,6 +38,7 @@ $for movie in page['data']:
     <td>($movie['year'])</td>
     <td>$('%3.1f' % movie['rating'])</td>
     <td>$movie['votes']</td>
+    <td>$movie['mtime']</td>
     </tr>
 
 </tbody>

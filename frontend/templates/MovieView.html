@@ -17,25 +17,25 @@ $if movie['plot outline']:
     <div>$movie['plot outline']</div>
 
 $if movie['director']:
-    <div>Director
+    <div>Director:
     $for person in movie['director']:
         <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
     </div>
 
 $if movie['writer']:
-    <div>Writer
+    <div>Writer:
     $for person in movie['writer']:
         <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
     </div>
 
 $if movie['producer']:
-    <div>Producer
+    <div>Producer:
     $for person in movie['producer']:
         <a href="/p$person['ID']">$person['str']</a>$((', ', '')[loop.last])
     </div>
 
 $if movie['cast']:
-    <div>Cast</div>
+    <div>Cast:</div>
 $for person in movie['cast']:
     <div><a href="/p$person['ID']">$person['str']</a></div>
 
@@ -50,6 +50,6 @@ $if movie['languages']:
         $lang$((' | ', '')[loop.last])
     </div>
 
-<div>Location</div>
+<div>Location:</div>
 $for item in movie['item']:
     <div>$item['dirpath']</div>
