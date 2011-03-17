@@ -27,7 +27,7 @@ class Model:
         if desc != 'off':
             reverse=True
         if sort in attrkey:
-            result.sort(key=lambda item:item[sort], reverse=reverse)
+            result.sort(key=lambda item:item.get(sort, None), reverse=reverse)
         for item in result:
             item['mtime'] = datetime.datetime.fromtimestamp(item['mtime']).strftime('%Y/%m/%d')
         return result

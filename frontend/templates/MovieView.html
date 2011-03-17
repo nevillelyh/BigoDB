@@ -9,7 +9,7 @@ $def person_list(plist):
         <div><a href="/p/$person['ID']">$person['str']</a></div>
 
 $def person_section(sec, title, style='csv'):
-    $if sec in movie and movie[sec]:
+    $if movie.get(sec, None):
         $if style == 'csv':
             <div>$title
             $:person_csv(movie[sec])
@@ -23,11 +23,12 @@ $def keyword_bsv(klist, base):
         <a href="$base/$keyword">$keyword</a>$((' | ', '')[loop.last])
 
 $def keyword_section(sec, title, base):
-    $if sec in movie and movie[sec]:
+    $if movie.get(sec, None):
         <div>$title
         $:keyword_bsv(movie[sec], base)
         </div>
         
+<div><a href="/">Home</a></div>
 <div>$movie['title'] ($movie['year'])</div>
 <div><a href="http://www.imdb.com/title/tt$movie['ID']/">IMDb</a></div>
 

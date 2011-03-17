@@ -5,10 +5,11 @@ $def movie_list(mlist):
         <div><a href="/m/$movie['ID']">$movie['title'] ($movie['year'])</a></div>
 
 $def movie_section(sec, title):
-    $if sec in person and person[sec]:
+    $if person.get(sec, None):
         <div>$title</div>
         $:movie_list(person[sec])
 
+<div><a href="/">Home</a></div>
 <div>$person['name']</div>
 <div><a href="http://www.imdb.com/name/nm$person['ID']/">IMDb</a></div>
 
