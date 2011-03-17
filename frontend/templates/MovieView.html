@@ -33,11 +33,14 @@ $def keyword_section(sec, title):
 
 $:keyword_section('genres', 'Genre:')
 
-<div>$('%3.1f' % movie['rating']) ($movie['votes'] votes)</div>
+<div>
+$if 'rating' in movie and 'votes' in movie:
+    $('%3.1f' % movie['rating']) ($movie['votes'] votes)
+</div>
 $if 'top 250 rank' in movie:
     <div>Top 250: #$movie['top 250 rank']</div>
 
-$if movie['plot outline']:
+$if 'plot outline' in movie:
     <div>$movie['plot outline']</div>
 
 $:person_section('director', 'Director:', 'csv')

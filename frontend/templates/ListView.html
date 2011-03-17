@@ -31,8 +31,18 @@ $for movie in page['list']:
     <tr>
     <td><a href="/m/$movie['ID']">$movie['title']</a></td>
     <td>($movie['year'])</td>
-    <td>$('%3.1f' % movie['rating'])</td>
-    <td>$movie['votes']</td>
+    <td>
+    $if 'rating' in movie:
+        $('%3.1f' % movie['rating'])
+    $else:
+        -
+    </td>
+    <td>
+    $if 'votes' in movie:
+        $movie['votes']
+    $else:
+        -
+    </td>
     <td>$movie['mtime']</td>
     </tr>
 </tbody>
