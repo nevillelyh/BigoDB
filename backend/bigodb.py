@@ -14,7 +14,7 @@ def search_movie(title, year):
     candidate = []
     if year:
         for m in movie_result:
-            if 'year' in m and m['year'] == year:
+            if m.get('year', None) == year:
                 candidate.append(m)
     else:
         candidate = movie_result
