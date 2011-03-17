@@ -1,37 +1,32 @@
 $def with (page)
 
 $code:
-    def desc_option(col, get):
-        if col == get.sort:
-            if get.desc == 'off':
-                return 'on'
+    def column_head(get):
+        col_option = (
+                ( 'title', 'Title', 'off', ),
+                ( 'year', 'Year', 'on', ),
+                ( 'rating', 'Rating', 'on', ),
+                ( 'votes', 'Votes', 'on', ),
+                ( 'mtime', 'Modified', 'on', ),
+                )
+        head = []
+        for key, title, opt in col_option:
+            if key == get.sort:
+                desc = ('on', 'off')[get.desc == 'on']
             else:
-                return 'off'
-        else:
-            if col == 'title':
-                return 'off'
-            elif col == 'year':
-                return 'on'
-            elif col == 'rating':
-                return 'on'
-            elif col == 'votes':
-                return 'on'
-            elif col == 'mtime':
-                return 'on'
+                desc = opt
+            head.append((title, '/l?sort=%s&desc=%s' % (key, desc)))
+        return head
 
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
 <table>
-    <thead>
-    <tr>
-        <td><a href="/l?sort=title&desc=$desc_option('title', page['get'])">Title</a></td>
-        <td><a href="/l?sort=year&desc=$desc_option('year', page['get'])">Year</a></td>
-        <td><a href="/l?sort=rating&desc=$desc_option('rating', page['get'])">Rating</a></td>
-        <td><a href="/l?sort=votes&desc=$desc_option('votes', page['get'])">Votes</a></td>
-        <td><a href="/l?sort=mtime&desc=$desc_option('mtime', page['get'])">Modified</a></td>
-    </tr>
-    </thead>
+<thead>
+<tr>
+$for title, href in column_head(page['get']):
+    <td><a href="$href">$title</a></td>
+</tr>
+</thead>
 <tbody>
-
 $for movie in page['list']:
     <tr>
     <td><a href="/m/$movie['ID']">$movie['title']</a></td>
@@ -40,6 +35,5 @@ $for movie in page['list']:
     <td>$movie['votes']</td>
     <td>$movie['mtime']</td>
     </tr>
-
 </tbody>
 </table>
