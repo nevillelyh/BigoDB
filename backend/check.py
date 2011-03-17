@@ -14,20 +14,21 @@ def main():
     db = pymongo.Connection().bigodb
     result = scanner.scan(LIBRARY_DIR)
     for dirpath, title, year in result:
-        if year:
-            full_title = '%s (%d)' % (title, year)
-        else:
-            full_title = title
-
         item = db.Library.find_one({ 'dirpath': dirpath })
         if item:
             movie = db.Movie.find_one({ 'ID': item['ID'] })
             if movie:
-                d = editdist.distance(full_title, movie['long imdb title'].encode('utf-8'))
-                if float(d) / max(len(full_title), len(movie['long imdb title'])) > 0.2:
-                    print ('[EDITDIST]\thttp://www.imdb.com/title/tt%s/\t%s ===> %s' % (movie['ID'], full_title, movie['long imdb title'])).encode('utf-8')
+                if year:
+                    original = '%s (%d)' % (title, year)
+                    matched = movie['long imdb title']
+                else:
+                    original = title
+                    matched = movie['title']
+                d = editdist.distance(original, matched.encode('utf-8'))
+                if float(d) / max(len(original), len(matched)) > 0.2:
+                    print ('[EDITDIST]\thttp://www.imdb.com/title/tt%s/\t%s ===> %s' % (movie['ID'], original, matched)).encode('utf-8')
         else:
-            print ('[UNKNOWN]\t%s ===> %s' % (dirpath, full_title)).encode('utf-8')
+            print '[UNKNOWN]\t%s ===> %s' % (dirpath, original)
 
 if __name__ == '__main__':
     main()
