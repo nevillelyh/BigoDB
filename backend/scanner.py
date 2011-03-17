@@ -186,12 +186,13 @@ def parse_release_name(basename):
     strname, audio_encode = strip_tokens(strname, AUDIO_ENCODE)
     strname, rel_type = strip_tokens(strname, RELEASE_TYPE)
     strname, lang_type = strip_tokens(strname, LANG_TYPE)
+    strname = strname.replace('-', '.')
     strname = re.sub('\.\.+', '/', strname.strip('.'))
     tokenlist = strname.split('/')
     return extract_title_year(tokenlist)
 
 def scan(dir):
-    ''' Scan directory for movies and add to BigoDB'''
+    ''' Scan directory for movies'''
     dirlist = []
     for dirpath, dirnames, filenames in os.walk(dir):
         if not is_movie_dir(dirpath, filenames):
@@ -199,15 +200,9 @@ def scan(dir):
         dirlist.append(dirpath)
 
     dirlist.sort()
-    total = len(dirlist)
-    count = 0
+    result = []
     for dirpath in dirlist:
         release = os.path.basename(dirpath)
         title, year = parse_release_name(release)
-        count += 1
-        msg = '[%4d/%4d] %s ===> "%s"' % (count, total, release, title)
-        if year:
-            msg += ' (%d)' % year
-        print msg
-
-        bigodb.add_movie(dirpath, title, year)
+        result.append((dirpath, title, year))
+    return result
