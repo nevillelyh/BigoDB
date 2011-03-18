@@ -2,8 +2,8 @@ import os
 import imdb
 import pymongo
 
+import coverutil
 import nfoutil
-
 
 db = pymongo.Connection().bigodb
 ia = imdb.IMDb()
@@ -91,6 +91,7 @@ def add_movie(dirpath, title, year):
         else:
             data[key] = encode_object(movie[key])
     db.Movie.insert(data)
+    coverutil.fetch_cover(movie)
 
     if not year:
         year = 0
