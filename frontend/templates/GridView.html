@@ -18,33 +18,27 @@ $code:
             head.append((title, '?sort=%s&desc=%s&layout=%s' % (key, desc, get.layout)))
         return head
 
+$ num_cols = 4
+
 <div><a href="/">Home</a></div>
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
-<table>
-<thead>
-<tr>
 $for title, href in column_head(page['get']):
-    <td><a href="$href">$title</a></td>
-</tr>
-</thead>
-<tbody>
-$for movie in page['list']:
+    <a href="$href">$title</a>$((' | ', '')[loop.last])
+<table>
+$for row in range(len(page['list'])/num_cols+1):
     <tr>
-    <td><a href="/m/$movie['ID']">$movie['title']</a></td>
-    <td>($movie['year'])</td>
-    <td>
-    $if 'rating' in movie:
-        $('%3.1f' % movie['rating'])
-    $else:
-        -
-    </td>
-    <td>
-    $if 'votes' in movie:
-        $movie['votes']
-    $else:
-        -
-    </td>
-    <td>$movie['mtime']</td>
+    $for idx in range(row*num_cols, (row+1)*num_cols):
+        <td>
+        $if idx < len(page['list']):
+            $ movie = page['list'][idx]
+            <div align="center">
+            <a href="/m/$movie['ID']">
+            <img src="/static/cover_small/$(movie['ID']).jpg" />
+            <div>$movie['title']</div>
+            </a>
+            </div>
+        $else:
+            &nbsp;
+        </td>
     </tr>
-</tbody>
 </table>

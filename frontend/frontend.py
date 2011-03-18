@@ -23,31 +23,43 @@ if __name__ == '__main__':
 
 class ListView:
     def GET(self):
-        get = web.input(sort='title', desc='off')
+        get = web.input(sort='title', desc='off', layout='list')
         result = model.getMovies(sort=get.sort, desc=get.desc)
         page = { 'get': get, 'list': result, }
-        return render.ListView(page)
+        if get.layout == 'list':
+            return render.ListView(page)
+        else:
+            return render.GridView(page)
 
 class GenreView:
     def GET(self, genre):
-        get = web.input(sort='title', desc='off')
+        get = web.input(sort='title', desc='off', layout='list')
         result = model.getMovies(sort=get.sort, desc=get.desc, filt = { 'genres': genre })
         page = { 'get': get, 'list': result, }
-        return render.ListView(page)
+        if get.layout == 'list':
+            return render.ListView(page)
+        else:
+            return render.GridView(page)
 
 class CountryView:
     def GET(self, country):
-        get = web.input(sort='title', desc='off')
+        get = web.input(sort='title', desc='off', layout='list')
         result = model.getMovies(sort=get.sort, desc=get.desc, filt = { 'countries': country })
         page = { 'get': get, 'list': result, }
-        return render.ListView(page)
+        if get.layout == 'list':
+            return render.ListView(page)
+        else:
+            return render.GridView(page)
 
 class LanguageView:
     def GET(self, language):
-        get = web.input(sort='title', desc='off')
+        get = web.input(sort='title', desc='off', layout='list')
         result = model.getMovies(sort=get.sort, desc=get.desc, filt = { 'languages': language })
         page = { 'get': get, 'list': result, }
-        return render.ListView(page)
+        if get.layout == 'list':
+            return render.ListView(page)
+        else:
+            return render.GridView(page)
 
 class MovieView:
     def GET(self, imdb_id):
