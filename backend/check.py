@@ -8,8 +8,6 @@ import pymongo
 import config
 import scanner
 
-LIBRARY_DIR = '/home/public/Movies'
-
 def main():
     db = pymongo.Connection().bigodb
     result = scanner.scan(config.LIBRARY_DIR)
