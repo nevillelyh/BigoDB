@@ -3,28 +3,31 @@ $def with (page)
 $code:
     def column_head(get):
         col_option = (
-                ( 'title', 'Title', 'off', ),
-                ( 'year', 'Year', 'on', ),
-                ( 'rating', 'Rating', 'on', ),
-                ( 'votes', 'Votes', 'on', ),
-                ( 'mtime', 'Modified', 'on', ),
+                ( 'title', 'Title', '0', ),
+                ( 'year', 'Year', '1', ),
+                ( 'rating', 'Rating', '1', ),
+                ( 'votes', 'Votes', '1', ),
+                ( 'mtime', 'Modified', '1', ),
                 )
         head = []
         for key, title, opt in col_option:
-            if key == get.sort:
-                desc = ('on', 'off')[get.desc == 'on']
+            arrow = ''
+            if key == get.s:
+                desc = ('1', '0')[get.d == '1']
+                arrow = ('&uArr;', '&dArr;')[get.d == '1']
             else:
                 desc = opt
-            head.append((title, '?sort=%s&desc=%s&layout=%s' % (key, desc, get.layout)))
+            head.append(('%s %s' % (title, arrow), '?s=%s&d=%s&v=%s' % (key, desc, get.v)))
         return head
 
 <div><a href="/">Home</a></div>
+<div><a href="?s=$page['get'].s&d=$page['get'].d&v=g">Grid</a></div>
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
 <table>
 <thead>
 <tr>
 $for title, href in column_head(page['get']):
-    <td><a href="$href">$title</a></td>
+    <td><a href="$href">$:title</a></td>
 </tr>
 </thead>
 <tbody>

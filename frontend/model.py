@@ -24,7 +24,7 @@ class Model:
         attrkey = [ 'title', 'year', 'rating', 'votes', 'mtime', ]
         
         reverse=False
-        if desc != 'off':
+        if desc != '0':
             reverse=True
         if sort in attrkey:
             result.sort(key=lambda item:item.get(sort, None), reverse=reverse)
