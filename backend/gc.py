@@ -4,9 +4,8 @@ import os
 
 import pymongo
 
+import config
 import scanner
-
-LIBRARY_DIR = '/home/public/Movies'
 
 def main():
     db = pymongo.Connection().bigodb
@@ -18,7 +17,7 @@ def main():
             'Company': {},
             }
 
-    result = scanner.scan(LIBRARY_DIR)
+    result = scanner.scan(config.LIBRARY_DIR)
     for dirpath, title, year in result:
         libmap[dirpath] = 1
 

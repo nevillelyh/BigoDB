@@ -5,13 +5,14 @@ import os
 import editdist
 import pymongo
 
+import config
 import scanner
 
 LIBRARY_DIR = '/home/public/Movies'
 
 def main():
     db = pymongo.Connection().bigodb
-    result = scanner.scan(LIBRARY_DIR)
+    result = scanner.scan(config.LIBRARY_DIR)
     for dirpath, title, year in result:
         if year:
             original = '%s (%d)' % (title, year)
