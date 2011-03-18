@@ -29,6 +29,8 @@ $def keyword_section(sec, title, base):
         </div>
         
 <div><a href="/">Home</a></div>
+$if 'cover url' in movie:
+    <img src="$('/static/cover_small/%s.jpg' % movie['ID'])" style="float:left;"/>
 <div>$movie['title'] ($movie['year'])</div>
 <div><a href="http://www.imdb.com/title/tt$movie['ID']/">IMDb</a></div>
 
