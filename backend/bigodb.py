@@ -7,7 +7,7 @@ import nfoutil
 
 db = pymongo.Connection().bigodb
 ia = imdb.IMDb()
-ia.set_proxy('http://localhost:8123/');
+# ia.set_proxy('http://localhost:8123/');
 
 def search_movie(title, year):
     movie_result = ia.search_movie(title)
