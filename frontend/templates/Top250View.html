@@ -1,0 +1,33 @@
+$def with (page)
+
+<div><a href="/">Home</a></div>
+<div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
+<table>
+<thead>
+<tr>
+$for title, href in column_head(page['get'], top250=True):
+    <td><a href="$href">$:title</a></td>
+</tr>
+</thead>
+<tbody>
+$for movie in page['list']:
+    <tr>
+    <td><a href="/m/$movie['ID']">$movie['title']</a></td>
+    <td>#$movie['top 250 rank']</td>
+    <td>($movie['year'])</td>
+    <td>
+    $if 'rating' in movie:
+        $('%3.1f' % movie['rating'])
+    $else:
+        -
+    </td>
+    <td>
+    $if 'votes' in movie:
+        $movie['votes']
+    $else:
+        -
+    </td>
+    <td>$movie['mtime']</td>
+    </tr>
+</tbody>
+</table>
