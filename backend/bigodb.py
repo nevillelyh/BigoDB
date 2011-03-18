@@ -78,8 +78,7 @@ def add_movie(dirpath, title, year):
         year = 0
     print ('[MATCH] %s %s (%d) ===> %s (%d)' % (dirpath, title, year, movie['title'], movie['year'])).encode('utf-8')
 
-    # Fetch cover and take snapshot
-    coverutil.fetch_cover(movie)
+    # Take snapshot
     fileinfo = ffmpegutil.take_release_snapshot(dirpath)
 
     db.Library.insert({
@@ -89,6 +88,7 @@ def add_movie(dirpath, title, year):
         'file': fileinfo,
         })
 
+    # Add movie information
     if db.Movie.find_one({ 'ID': movie.getID() }):
         return
 
@@ -103,6 +103,9 @@ def add_movie(dirpath, title, year):
         else:
             data[key] = encode_object(movie[key])
     db.Movie.insert(data)
+
+    # Fetch cover
+    coverutil.fetch_cover(data)
 
 def add_item(coll, item):
     '''Add an IMDBPy item to a collection'''
