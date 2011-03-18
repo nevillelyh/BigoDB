@@ -9,7 +9,7 @@ class Model:
     def getMovies(self, sort, desc, filt = {}):
         result = {}
         for movie in self.db.Movie.find(filt,
-                { 'ID':1, 'title':1, 'year':1, 'rating':1, 'votes':1, }):
+                { 'ID':1, 'title':1, 'year':1, 'rating':1, 'votes':1, 'top 250 rank':1 }):
             result[movie['ID']] = movie
             result[movie['ID']]['item'] = []
             result[movie['ID']]['mtime'] = 0
@@ -21,7 +21,7 @@ class Model:
                 result[item['ID']]['mtime'] = item['mtime']
         result = result.values()
 
-        attrkey = [ 'title', 'year', 'rating', 'votes', 'mtime', ]
+        attrkey = [ 'title', 'year', 'rating', 'votes', 'mtime', 'top 250 rank' ]
         
         reverse=False
         if desc != '0':

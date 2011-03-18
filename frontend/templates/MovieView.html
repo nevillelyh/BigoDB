@@ -41,7 +41,7 @@ $if 'rating' in movie and 'votes' in movie:
     $('%3.1f' % movie['rating']) ($movie['votes'] votes)
 </div>
 $if 'top 250 rank' in movie:
-    <div>Top 250: #$movie['top 250 rank']</div>
+    <div>Top 250: <a href="/top250">#$movie['top 250 rank']</a></div>
 
 $if 'plot outline' in movie:
     <div>$movie['plot outline']</div>
@@ -56,4 +56,11 @@ $:keyword_section('languages', 'Language:', '/l')
 
 <div>Location:</div>
 $for item in movie['item']:
+    <hr />
     <div>$item['dirpath']</div>
+    $for file in item['file']:
+        <div>$file['path']</div>
+        <div>Duration: $file['info']['duration']</div>
+        $for line in file['info']['stream']:
+            <div>$line</div>
+        <div><img src="/static/snapshot/$file['snapshot']" /></div>

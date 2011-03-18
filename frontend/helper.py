@@ -1,11 +1,15 @@
-def column_head(get):
-    col_option = (
+def column_head(get, top250=False):
+    col_option = [
             ( 'title', 'Title', '0', ),
+            ]
+    if top250:
+        col_option.append(('top 250 rank', 'Rank', '1'))
+    col_option += [
             ( 'year', 'Year', '1', ),
             ( 'rating', 'Rating', '1', ),
             ( 'votes', 'Votes', '1', ),
             ( 'mtime', 'Modified', '1', ),
-            )
+            ]
     head = []
     for key, title, opt in col_option:
         arrow = ''
@@ -14,5 +18,8 @@ def column_head(get):
             arrow = ('&uArr;', '&dArr;')[get.d == '1']
         else:
             desc = opt
-        head.append(('%s %s' % (title, arrow), '?s=%s&d=%s&v=%s' % (key, desc, get.v)))
+        if top250:
+            head.append(('%s %s' % (title, arrow), '?s=%s&d=%s' % (key, desc)))
+        else:
+            head.append(('%s %s' % (title, arrow), '?s=%s&d=%s&v=%s' % (key, desc, get.v)))
     return head
