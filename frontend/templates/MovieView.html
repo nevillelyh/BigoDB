@@ -40,6 +40,7 @@ $:keyword_section('genres', 'Genre:', '/g')
 $if 'rating' in movie and 'votes' in movie:
     $('%3.1f' % movie['rating']) ($movie['votes'] votes)
 </div>
+
 $if 'top 250 rank' in movie:
     <div>Top 250: <a href="/top250">#$movie['top 250 rank']</a></div>
 

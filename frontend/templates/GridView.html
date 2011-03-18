@@ -7,6 +7,7 @@ $ num_cols = 5
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
 $for title, href in column_head(page['get'], top250=page['top250']):
     <a href="$href">$:title</a>$((' | ', '')[loop.last])
+
 <table>
 $for row in range(len(page['list'])/num_cols+1):
     <tr>

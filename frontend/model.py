@@ -30,6 +30,7 @@ class Model:
             result.sort(key=lambda item:item.get(sort, None), reverse=reverse)
         for item in result:
             item['mtime'] = datetime.datetime.fromtimestamp(item['mtime']).strftime('%Y/%m/%d')
+
         return result
 
     def getMovie(self, imdb_id):
