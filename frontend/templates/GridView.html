@@ -2,10 +2,10 @@ $def with (page)
 
 $ num_cols = 5
 
-<div><a href="/">Home</a></div>
+<div><a href="/">Home</a> | <a href="/top250">Top 250</a></div>
 <div><a href="?s=$page['get'].s&d=$page['get'].d&v=l">List</a></div>
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
-$for title, href in column_head(page['get']):
+$for title, href in column_head(page['get'], top250=page['top250']):
     <a href="$href">$:title</a>$((' | ', '')[loop.last])
 <table>
 $for row in range(len(page['list'])/num_cols+1):
@@ -35,6 +35,8 @@ $for row in range(len(page['list'])/num_cols+1):
             $elif page['get'].s == 'mtime':
                 $movie['mtime']
             </div>
+            $if page['top250']:
+                # $movie['top 250 rank']
             </div>
         $else:
             &nbsp;

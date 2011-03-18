@@ -18,8 +18,5 @@ def column_head(get, top250=False):
             arrow = ('&uArr;', '&dArr;')[get.d == '1']
         else:
             desc = opt
-        if top250:
-            head.append(('%s %s' % (title, arrow), '?s=%s&d=%s' % (key, desc)))
-        else:
-            head.append(('%s %s' % (title, arrow), '?s=%s&d=%s&v=%s' % (key, desc, get.v)))
+        head.append(('%s %s' % (title, arrow), '?s=%s&d=%s&v=%s' % (key, desc, get.v)))
     return head
