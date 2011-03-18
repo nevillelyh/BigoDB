@@ -1,5 +1,7 @@
 $def with (page)
 
+$var title: $page['title']
+
 $ num_cols = 5
 
 <div><a href="/">Home</a> | <a href="/top250">Top 250</a></div>
@@ -17,7 +19,8 @@ $for row in range(len(page['list'])/num_cols+1):
             $ movie = page['list'][idx]
             <div align="center">
             <a href="/m/$movie['ID']">
-            <img src="/static/cover_small/$(movie['ID']).jpg" />
+            $if 'cover url' in movie:
+                <img src="/static/cover_small/$(movie['ID']).jpg" />
             </a>
             <div>$movie['title']</div>
             <div>

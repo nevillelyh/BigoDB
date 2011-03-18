@@ -5,9 +5,10 @@ import web
 import helper
 import model
 
-render = web.template.render('templates/', globals={
-    'column_head':helper.column_head,
-    })
+render = web.template.render('templates/',
+        base='layout',
+        globals={ 'column_head':helper.column_head, }
+        )
 
 urls = (
         '/', 'IndexView',
@@ -29,7 +30,7 @@ class IndexView:
     def GET(self):
         get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d)
-        page = { 'get':get, 'list':result, 'top250':False, }
+        page = { 'get':get, 'list':result, 'top250':False, 'title':'BigoDB' }
         if get.v == 'l':
             return render.ListView(page)
         else:
@@ -39,7 +40,8 @@ class Top250View:
     def GET(self):
         get = web.input(s='t', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'top 250 rank':{ '$gt':0 } })
-        page = { 'get':get, 'list':result, 'top250':True, }
+        page = { 'get':get, 'list':result, 'top250':True,
+                'title':'BigoDB - Top 250' }
         if get.v == 'l':
             return render.ListView(page)
         else:
@@ -49,7 +51,8 @@ class GenreView:
     def GET(self, genre):
         get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'genres':genre })
-        page = { 'get':get, 'list':result, 'top250':False, }
+        page = { 'get':get, 'list':result, 'top250':False, 
+                'title':'BigoDB - %s' % genre }
         if get.v == 'l':
             return render.ListView(page)
         else:
@@ -59,7 +62,8 @@ class CountryView:
     def GET(self, country):
         get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'countries':country })
-        page = { 'get':get, 'list':result, 'top250':False, }
+        page = { 'get':get, 'list':result, 'top250':False,
+                'title':'BigoDB - %s' % country }
         if get.v == 'l':
             return render.ListView(page)
         else:
@@ -69,7 +73,8 @@ class LanguageView:
     def GET(self, language):
         get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'languages':language })
-        page = { 'get':get, 'list':result, 'top250':False, }
+        page = { 'get':get, 'list':result, 'top250':False,
+                'title':'BigoDB - %s' % language }
         if get.v == 'l':
             return render.ListView(page)
         else:

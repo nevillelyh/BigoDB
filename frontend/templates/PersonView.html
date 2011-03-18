@@ -1,5 +1,7 @@
 $def with (person)
 
+$var title: BigoDB - $person['name']
+
 $def movie_list(mlist):
     $for movie in mlist:
         <div><a href="/m/$movie['ID']">$movie['title'] ($movie['year'])</a></div>

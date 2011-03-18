@@ -1,5 +1,7 @@
 $def with (page)
 
+$var title: $page['title']
+
 <div><a href="/">Home</a> | <a href="/top250">Top 250</a></div>
 <div><a href="?s=$page['get'].s&d=$page['get'].d&v=g">Grid</a></div>
 <div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>

@@ -8,8 +8,15 @@ class Model:
 
     def getMovies(self, sort, desc, filt = {}):
         result = {}
-        for movie in self.db.Movie.find(filt,
-                { 'ID':1, 'title':1, 'year':1, 'rating':1, 'votes':1, 'top 250 rank':1 }):
+        for movie in self.db.Movie.find(filt, {
+            'ID':1,
+            'title':1,
+            'year':1,
+            'rating':1,
+            'votes':1,
+            'top 250 rank':1,
+            'cover url':1,
+            }):
             result[movie['ID']] = movie
             result[movie['ID']]['item'] = []
             result[movie['ID']]['mtime'] = 0

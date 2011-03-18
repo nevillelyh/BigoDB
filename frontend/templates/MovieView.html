@@ -1,5 +1,7 @@
 $def with (movie)
 
+$var title: BigoDB - $movie['title']
+
 $def person_csv(plist):
     $for person in plist:
         <a href="/p/$person['ID']">$person['str']</a>$((', ', '')[loop.last])
