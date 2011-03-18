@@ -21,13 +21,19 @@ class Model:
                 result[item['ID']]['mtime'] = item['mtime']
         result = result.values()
 
-        attrkey = [ 'title', 'year', 'rating', 'votes', 'mtime', 'top 250 rank' ]
+        keymap = {
+                'n':'title',
+                'y':'year',
+                'r':'rating',
+                'v':'votes',
+                'm':'mtime',
+                't':'top 250 rank' }
         
         reverse=False
         if desc != '0':
             reverse=True
-        if sort in attrkey:
-            result.sort(key=lambda item:item.get(sort, None), reverse=reverse)
+        if sort in keymap:
+            result.sort(key=lambda item:item.get(keymap[sort], None), reverse=reverse)
         for item in result:
             item['mtime'] = datetime.datetime.fromtimestamp(item['mtime']).strftime('%Y/%m/%d')
 

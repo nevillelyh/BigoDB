@@ -1,14 +1,14 @@
 def column_head(get, top250=False):
     col_option = [
-            ( 'title', 'Title', '0', ),
+            ( 'n', 'Title', '0', ),
             ]
     if top250:
-        col_option.append(('top 250 rank', 'Rank', '1'))
+        col_option.append(('t', 'Rank', '1'))
     col_option += [
-            ( 'year', 'Year', '1', ),
-            ( 'rating', 'Rating', '1', ),
-            ( 'votes', 'Votes', '1', ),
-            ( 'mtime', 'Modified', '1', ),
+            ( 'y', 'Year', '1', ),
+            ( 'r', 'Rating', '1', ),
+            ( 'v', 'Votes', '1', ),
+            ( 'm', 'Modified', '1', ),
             ]
     head = []
     for key, title, opt in col_option:

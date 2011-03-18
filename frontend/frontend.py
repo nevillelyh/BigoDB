@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
 class IndexView:
     def GET(self):
-        get = web.input(s='title', d='0', v='l')
+        get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d)
         page = { 'get':get, 'list':result, 'top250':False, }
         if get.v == 'l':
@@ -37,7 +37,7 @@ class IndexView:
 
 class Top250View:
     def GET(self):
-        get = web.input(s='top 250 rank', d='0', v='l')
+        get = web.input(s='t', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'top 250 rank':{ '$gt':0 } })
         page = { 'get':get, 'list':result, 'top250':True, }
         if get.v == 'l':
@@ -47,7 +47,7 @@ class Top250View:
 
 class GenreView:
     def GET(self, genre):
-        get = web.input(s='title', d='0', v='l')
+        get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'genres':genre })
         page = { 'get':get, 'list':result, 'top250':False, }
         if get.v == 'l':
@@ -57,7 +57,7 @@ class GenreView:
 
 class CountryView:
     def GET(self, country):
-        get = web.input(s='title', d='0', v='l')
+        get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'countries':country })
         page = { 'get':get, 'list':result, 'top250':False, }
         if get.v == 'l':
@@ -67,7 +67,7 @@ class CountryView:
 
 class LanguageView:
     def GET(self, language):
-        get = web.input(s='title', d='0', v='l')
+        get = web.input(s='n', d='0', v='l')
         result = model.getMovies(sort=get.s, desc=get.d, filt = { 'languages':language })
         page = { 'get':get, 'list':result, 'top250':False, }
         if get.v == 'l':
