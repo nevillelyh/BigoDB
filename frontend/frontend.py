@@ -2,9 +2,12 @@
 
 import web
 
+import helper
 import model
 
-render = web.template.render('templates/')
+render = web.template.render('templates/', globals={
+    'column_head': helper.column_head,
+    })
 
 urls = (
         '/', 'ListView',
