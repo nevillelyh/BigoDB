@@ -5,12 +5,11 @@ import os
 import editdist
 import pymongo
 
-import config
 import scanner
 
 def main():
     db = pymongo.Connection().bigodb
-    result = scanner.scan(config.LIBRARY_DIR)
+    result = scanner.scan()
     for dirpath, title, year in result:
         if year:
             original = '%s (%d)' % (title, year)

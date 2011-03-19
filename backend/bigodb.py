@@ -3,7 +3,6 @@ import imdb
 import pymongo
 
 import coverutil
-import config
 import ffmpegutil
 import nfoutil
 import scanner
@@ -119,7 +118,7 @@ def add_item(coll, item):
     coll.insert(data)
 
 def scan():
-    result = scanner.scan(config.LIBRARY_DIR)
+    result = scanner.scan()
     for dirpath, title, year in result:
         add_movie(dirpath, title, year)
 
@@ -131,7 +130,7 @@ def gc():
             'Company': {},
             }
 
-    result = scanner.scan(config.LIBRARY_DIR)
+    result = scanner.scan()
     for dirpath, title, year in result:
         libmap[dirpath] = 1
 

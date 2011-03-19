@@ -3,6 +3,7 @@ import os
 import re
 
 import bigodb
+import config
 
 EXCLUDE_DIRS = [
         'extras',
@@ -193,7 +194,7 @@ def parse_release_name(basename):
     tokenlist = strname.split('/')
     return extract_title_year(tokenlist)
 
-def scan(dir):
+def scan(dir=config.LIBRARY_DIR):
     ''' Scan directory for movies'''
     dirlist = []
     for dirpath, dirnames, filenames in os.walk(dir):
