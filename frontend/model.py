@@ -1,6 +1,6 @@
-import datetime
-
 import pymongo
+
+import helper
 
 class Model:
     def __init__(self):
@@ -42,7 +42,7 @@ class Model:
         if sort in keymap:
             result.sort(key=lambda item:item.get(keymap[sort], None), reverse=reverse)
         for item in result:
-            item['mtime'] = datetime.datetime.fromtimestamp(item['mtime']).strftime('%Y/%m/%d')
+            item['mtime'] = helper.time_repr(item['mtime'])
 
         return result
 

@@ -1,3 +1,6 @@
+import datetime
+import time
+
 def column_head(get, top250=False):
     col_option = [
             ( 'n', 'Title', '0', ),
@@ -20,3 +23,19 @@ def column_head(get, top250=False):
             desc = opt
         head.append(('%s %s' % (title, arrow), '?s=%s&d=%s&v=%s' % (key, desc, get.v)))
     return head
+
+def time_repr(mtime):
+    diff = int(time.time() - mtime)
+    if diff < 60:
+        return '%d second%s ago' % (diff, ('s', '')[diff<=1])
+    elif diff < 3600:
+        diff /= 60
+        return '%d minute%s ago' % (diff, ('s', '')[diff<=1])
+    elif diff < 86400:
+        diff /= 3600
+        return '%d hour%s ago' % (diff, ('s', '')[diff<=1])
+    elif diff < 604800:
+        diff /= 86400
+        return '%d day%s ago' % (diff, ('s', '')[diff<=1])
+    else:
+        return datetime.datetime.fromtimestamp(mtime).strftime('%Y/%m/%d')
