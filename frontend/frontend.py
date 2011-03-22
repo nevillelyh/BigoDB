@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
 class IndexView:
     def GET(self):
-        get = web.input(s='n', d='0', v='l')
+        get = web.input(s='m', d='1', v='l')
         result = model.getMovies(sort=get.s, desc=get.d)
         page = { 'get':get, 'list':result, 'top250':False, 'title':'BigoDB' }
         if get.v == 'l':
