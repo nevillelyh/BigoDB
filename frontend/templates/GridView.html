@@ -18,11 +18,15 @@ $for row in range(len(page['list'])/num_cols+1):
         $if idx < len(page['list']):
             $ movie = page['list'][idx]
             <div align="center">
+            <div style="width:90px; height:140px; overflow:hidden;">
             <a href="/m/$movie['ID']">
             $if 'cover url' in movie:
-                <img src="/static/cover_small/$(movie['ID']).jpg" />
+                <img src="/static/cover_small/$(movie['ID']).jpg" border="0" />
+            $elif 'snapshot' in movie:
+                <img src="/static/snapshot/$(movie['snapshot'])" style="position:relative; left:-90px;" height="140px" border="0" />
             </a>
-            <div>$movie['title']</div>
+            </div>
+            <div><a href="/m/$movie['ID']">$movie['title']</a></div>
             <div>
             $if page['get'].s == 'year':
                 ($movie['year'])
@@ -38,9 +42,9 @@ $for row in range(len(page['list'])/num_cols+1):
                     -
             $elif page['get'].s == 'mtime':
                 $movie['mtime']
-            </div>
             $if page['top250']:
                 # $movie['top 250 rank']
+            </div>
             </div>
         $else:
             &nbsp;
