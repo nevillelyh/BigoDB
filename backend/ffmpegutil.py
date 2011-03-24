@@ -32,8 +32,10 @@ def extract_duration(line):
 def get_info(path):
     args = shlex.split('ffmpeg -i')
     args.append(path)
-    ret, out = run(args)
     info = { 'duration': 0, 'stream': [] }
+
+    ret, out = run(args)
+
     for l in out:
         l = l.strip()
         if l.startswith('Duration: '):
@@ -68,6 +70,10 @@ def take_release_snapshot(dirpath):
         vfile = os.path.join(dirpath, filename)
         sfile = get_snapshot_path(vfile)
         info = get_info(vfile)
+
+        if info['duration'] == 0 or len(info['stream']) == 0:
+            continue
+
         offset = parse_duration(info['duration']) / 2
         take_snapshot(vfile, offset, sfile)
 
