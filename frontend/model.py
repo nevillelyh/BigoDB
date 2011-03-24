@@ -8,6 +8,7 @@ class Model:
 
     def getMovies(self, sort, desc, filt = {}):
         result = {}
+        id_hit = []
         for movie in self.db.Movie.find(filt, {
             'ID':1,
             'title':1,
@@ -20,12 +21,16 @@ class Model:
             result[movie['ID']] = movie
             result[movie['ID']]['item'] = []
             result[movie['ID']]['mtime'] = 0
-        for item in self.db.Library.find():
-            if item['ID'] not in result:
-                continue
+            id_hit.append(movie['ID'])
+        for item in self.db.Library.find({'ID':{'$in':id_hit}}):
             result[item['ID']]['item'].append(item)
             if item['mtime'] > result[item['ID']]['mtime']:
                 result[item['ID']]['mtime'] = item['mtime']
+            if 'cover url' not in result[item['ID']]:
+                snapshot = item.get('file', [{}])[0].get('snapshot', None)
+                if snapshot:
+                    result[item['ID']]['snapshot'] = snapshot
+
         result = result.values()
 
         keymap = {
