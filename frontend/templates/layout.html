@@ -5,6 +5,13 @@ $def with (page)
 <title>$:page.title</title>
 </head>
 <body>
+<div><a href="/">Home</a> | <a href="/top250">Top 250</a></div>
+<div>
+    <form method="GET" action="/s/">
+        <input type="text" name="q" size="100" value=""></input>
+        <input type="submit" name="s" value="Search"></input>
+    </form>
+</div>
 $:page
 </body>
 </html>

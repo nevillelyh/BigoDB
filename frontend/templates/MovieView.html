@@ -30,7 +30,6 @@ $def keyword_section(sec, title, base):
         $:keyword_bsv(movie[sec], base)
         </div>
         
-<div><a href="/">Home</a> | <a href="/top250">Top 250</a></div>
 $if 'cover url' in movie:
     <a href="/static/cover_full/$(movie['ID']).jpg"><img src="/static/cover_small/$(movie['ID']).jpg" style="float:left;"/></a>
 <div>$movie['title'] ($movie['year'])</div>
