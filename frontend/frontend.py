@@ -101,7 +101,7 @@ class SearchView:
         get = web.input(s='n', d='0', v='l', q='')
         if get.q:
             print get.q
-            raise web.seeother('/s/%s/' % get.q)
+            raise web.seeother('/s/%s/?s=%s&d=%s&v=%s' % (get.q, get.s, get.d, get.v))
         result = model.getMovies(sort=get.s, desc=get.d, filt=idxutil.build_query(query))
         page = { 'get':get, 'list':result, 'top250':False, 'title':'BigoDB Search' }
         if get.v == 'l':
