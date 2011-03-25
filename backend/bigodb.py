@@ -4,6 +4,7 @@ import pymongo
 
 import coverutil
 import ffmpegutil
+import idxutil
 import nfoutil
 import scanner
 
@@ -101,6 +102,8 @@ def add_movie(dirpath, title, year):
                 data[key].append(encode_object(item))
         else:
             data[key] = encode_object(movie[key])
+
+    data['title_vector'] = idxutil.get_title_vector(data)
     db.Movie.insert(data)
 
     # Fetch cover
