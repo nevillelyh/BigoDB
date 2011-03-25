@@ -1,4 +1,7 @@
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(sys.path[0], '..', 'lib')))
+
 import imdb
 import pymongo
 
