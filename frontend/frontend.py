@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(sys.path[0], '..', 'lib')))
+
 import web
 
 import helper
+import idxutil
 import model
 
 render = web.template.render('templates/',
@@ -18,6 +23,7 @@ urls = (
         '/l/(\w+)/?', 'LanguageView',
         '/m/(\d+)/?', 'MovieView',
         '/p/(\d+)/?', 'PersonView',
+        '/s/([^/]+)?/?', 'SearchView',
         )
 
 app = web.application(urls, globals())
@@ -39,7 +45,7 @@ class IndexView:
 class Top250View:
     def GET(self):
         get = web.input(s='t', d='0', v='l')
-        result = model.getMovies(sort=get.s, desc=get.d, filt = { 'top 250 rank':{ '$gt':0 } })
+        result = model.getMovies(sort=get.s, desc=get.d, filt={ 'top 250 rank':{ '$gt':0 } })
         page = { 'get':get, 'list':result, 'top250':True,
                 'title':'BigoDB - Top 250' }
         if get.v == 'l':
@@ -50,7 +56,7 @@ class Top250View:
 class GenreView:
     def GET(self, genre):
         get = web.input(s='n', d='0', v='l')
-        result = model.getMovies(sort=get.s, desc=get.d, filt = { 'genres':genre })
+        result = model.getMovies(sort=get.s, desc=get.d, filt={ 'genres':genre })
         page = { 'get':get, 'list':result, 'top250':False, 
                 'title':'BigoDB - %s' % genre }
         if get.v == 'l':
@@ -61,7 +67,7 @@ class GenreView:
 class CountryView:
     def GET(self, country):
         get = web.input(s='n', d='0', v='l')
-        result = model.getMovies(sort=get.s, desc=get.d, filt = { 'countries':country })
+        result = model.getMovies(sort=get.s, desc=get.d, filt={ 'countries':country })
         page = { 'get':get, 'list':result, 'top250':False,
                 'title':'BigoDB - %s' % country }
         if get.v == 'l':
@@ -72,7 +78,7 @@ class CountryView:
 class LanguageView:
     def GET(self, language):
         get = web.input(s='n', d='0', v='l')
-        result = model.getMovies(sort=get.s, desc=get.d, filt = { 'languages':language })
+        result = model.getMovies(sort=get.s, desc=get.d, filt={ 'languages':language })
         page = { 'get':get, 'list':result, 'top250':False,
                 'title':'BigoDB - %s' % language }
         if get.v == 'l':
@@ -89,3 +95,16 @@ class PersonView:
     def GET(self, imdb_id):
         result = model.getPerson(imdb_id)
         return render.PersonView(result)
+
+class SearchView:
+    def GET(self, query):
+        get = web.input(s='n', d='0', v='l', q='')
+        if get.q:
+            print get.q
+            raise web.seeother('/s/%s/' % get.q)
+        result = model.getMovies(sort=get.s, desc=get.d, filt=idxutil.build_query(query))
+        page = { 'get':get, 'list':result, 'top250':False, 'title':'BigoDB Search' }
+        if get.v == 'l':
+            return render.ListView(page)
+        else:
+            return render.GridView(page)
