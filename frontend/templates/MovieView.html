@@ -56,6 +56,11 @@ $:person_section('cast', 'Cast:', 'list')
 $:keyword_section('countries', 'Country:', '/c')
 $:keyword_section('languages', 'Language:', '/l')
 
+$if 'akas' in movie:
+    <div>Also known as:</div>
+    $for aka in movie['akas']:
+        <div>$:aka</div>
+
 <div>Location:</div>
 $for item in movie['item']:
     <hr />
