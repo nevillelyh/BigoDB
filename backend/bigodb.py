@@ -5,6 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(sys.path[0], '..', 'lib')))
 import imdb
 import pymongo
 
+import config
 import coverutil
 import ffmpegutil
 import idxutil
@@ -129,22 +130,23 @@ def scan():
         add_movie(dirpath, title, year)
 
 def gc():
-    libmap = {}
+    libmap = set()
     collmap = {
-            'Movie': {},
-            'Person': {},
-            'Company': {},
+            'Movie': set(),
+            'Person': set(),
+            'Company': set(),
             }
+    snapmap = set()
 
     result = scanner.scan()
     for dirpath, title, year in result:
-        libmap[dirpath] = 1
+        libmap.add(dirpath)
 
         item = db.Library.find_one({ 'dirpath':  dirpath })
         if not item:
             continue
 
-        collmap['Movie'][item['ID']] = 1
+        collmap['Movie'].add(item['ID'])
 
         movie = db.Movie.find_one({ 'ID': item['ID'] })
         if not movie:
@@ -154,15 +156,19 @@ def gc():
             if type(movie[key]) is list:
                 for i in movie[key]:
                     if type(i) is dict and 'type' in i and 'ID' in i:
-                        collmap[i['type']][i['ID']] = 1
+                        collmap[i['type']].add(i['ID'])
             elif type(movie[key]) is dict and 'type' in movie[key] and 'ID' in movie[key]:
-                collmap[movie[key]['type']][movie[key]['ID']] = 1
+                collmap[movie[key]['type']].add(movie[key]['ID'])
 
     count = 0
-    for i in db.Library.find({}, { 'dirpath': 1 }):
+    for i in db.Library.find({}, { 'dirpath': 1, 'file': 1 }):
         if i['dirpath'] not in libmap:
             db.Library.remove({ 'dirpath': i['dirpath'] })
             count += 1
+        for f in i['file']:
+            if 'snapshot' in f:
+                snapmap.add(f['snapshot'])
+
     print '[GC] Library: %d' % count
 
     for coll in collmap:
@@ -172,3 +178,12 @@ def gc():
                 db[coll].remove({ 'ID': i['ID'] })
                 count += 1
         print '[GC] %s: %d' % (coll, count)
+
+    count = 0
+    snapdir = os.path.join(config.STATIC_DIR, 'snapshot')
+    for entry in os.listdir(snapdir):
+        snapfile = os.path.join(snapdir, entry)
+        if entry not in snapmap and os.path.isfile(snapfile):
+            os.remove(snapfile)
+            count += 1
+    print '[GC] Snapshot: %d' % count
