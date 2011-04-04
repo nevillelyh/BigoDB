@@ -5,7 +5,7 @@ $var title: $page['title']
 $ num_cols = 5
 
 <div><a href="?s=$page['get'].s&d=$page['get'].d&v=l">List</a></div>
-<div>$len(page['list']) title$(('', 's')[len(page['list'])>1])</div>
+<div>$len(page['list']) movie$(('', 's')[len(page['list'])>1])</div>
 $for title, href in column_head(page['get'], top250=page['top250']):
     <a href="$href">$:title</a>$((' | ', '')[loop.last])
 

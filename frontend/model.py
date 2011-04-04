@@ -12,6 +12,7 @@ class Model:
         for movie in self.db.Movie.find(filt, {
             'ID':1,
             'title':1,
+            'long imdb title':1,
             'year':1,
             'rating':1,
             'votes':1,
@@ -49,6 +50,12 @@ class Model:
         for item in result:
             item['mtime'] = helper.time_repr(item['mtime'])
 
+        return result
+
+    def getPersons(self, filt = {}):
+        result = []
+        for person in self.db.Person.find(filt):
+            result.append(person)
         return result
 
     def getMovie(self, imdb_id):
