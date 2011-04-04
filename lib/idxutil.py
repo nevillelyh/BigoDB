@@ -30,9 +30,16 @@ def get_title_vector(movie):
 
     return vec
 
+def get_name_vector(person):
+    vec = {}
+    for t in tokenize(person['long imdb name']):
+        update_vec(vec, t)
+
+    return vec
+
 def build_query(query):
     query = query.replace('+', ' ')
     q = {}
     for t in tokenize(query):
-        q['title_vector.%s' % t] = {'$gt':0}
+        q['_term_vector.%s' % t] = {'$gt':0}
     return q

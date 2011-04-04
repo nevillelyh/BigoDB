@@ -102,12 +102,14 @@ def add_movie(dirpath, title, year):
             data[key] = []
             for item in movie[key]:
                 if is_imdb_object(item):
+                    if type(item).__name__ == 'Person':
+                        item['_term_vector'] = idxutil.get_name_vector(item)
                     add_item(db[type(item).__name__], item)
                 data[key].append(encode_object(item))
         else:
             data[key] = encode_object(movie[key])
 
-    data['title_vector'] = idxutil.get_title_vector(data)
+    data['_term_vector'] = idxutil.get_title_vector(data)
     db.Movie.insert(data)
 
     # Fetch cover
