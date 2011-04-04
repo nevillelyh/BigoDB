@@ -1,0 +1,17 @@
+$def with (page)
+
+$var title: $page['title']
+
+$if 'movie' in page and len(page['movie']):
+    <div>$len(page['movie']) movie$(('', 's')[len(page['movie'])>1])</div>
+    <ul>
+    $for movie in page['movie']:
+        <li><a href="/m/$movie['ID']">$movie['title']</a></li>
+    </ul>
+
+$if 'person' in page and len(page['person']):
+    <div>$len(page['person']) person$(('', 's')[len(page['person'])>1])</div>
+    <ul>
+    $for person in page['person']:
+        <li><a href="/p/$person['ID']">$person['name']</a></li>
+    </ul>
