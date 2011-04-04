@@ -16,7 +16,7 @@ def is_audio(stream):
         return False
 
 def is_surround(stream):
-    if ' 5.1, ' in stream:
+    if ' 5.1, ' in stream and ('ac3' in stream or 'dca' in stream):
         return True
     else:
         return False
