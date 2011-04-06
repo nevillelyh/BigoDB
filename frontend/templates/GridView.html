@@ -39,8 +39,8 @@ $for row in range(len(page['list'])/num_cols+1):
                     $movie['votes'] vote$(('s', '')[movie['votes'] == 1])
                 $else:
                     -
-            $elif page['get'].s == 'mtime':
-                $movie['mtime']
+            $elif page['get'].s == '_mtime':
+                $time_repr(movie['_mtime'])
             $if page['top250']:
                 # $movie['top 250 rank']
             </div>

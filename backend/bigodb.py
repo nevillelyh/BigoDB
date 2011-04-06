@@ -85,18 +85,19 @@ def add_movie(dirpath, title, year):
     # Take snapshot
     fileinfo = ffmpegutil.take_release_snapshot(dirpath)
 
+    mtime = os.path.getmtime(dirpath)
     db.Library.insert({
         'dirpath': dirpath,
         'ID': movie.getID(),
-        'mtime': os.path.getmtime(dirpath),
         'file': fileinfo,
         })
 
     # Add movie information
     if db.Movie.find_one({ 'ID': movie.getID() }):
+        db.Movie.update({ 'ID': movie.getID() }, { '$set': { '_mtime': mtime } })
         return
 
-    data = { 'ID': movie.getID(), }
+    data = { 'ID': movie.getID(), '_mtime': mtime }
     for key in movie.keys():
         if type(movie[key]) is list:
             data[key] = []

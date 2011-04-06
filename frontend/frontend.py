@@ -12,7 +12,10 @@ import model
 
 render = web.template.render('templates/',
         base='layout',
-        globals={ 'column_head':helper.column_head, }
+        globals={
+            'column_head':helper.column_head,
+            'time_repr':helper.time_repr,
+            }
         )
 
 urls = (
