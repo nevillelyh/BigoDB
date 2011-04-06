@@ -16,7 +16,7 @@ class Model:
                 't':'top 250 rank'
                 }
 
-        if desc == 0:
+        if desc == '0':
             order = pymongo.ASCENDING
         else:
             order = pymongo.DESCENDING
