@@ -5,17 +5,17 @@ import re
 import bigodb
 import config
 
-EXCLUDE_DIRS = [
+EXCLUDE_DIRS = (
         'extras',
-        ]
+        )
 
-VIDEO_EXT = [
+VIDEO_EXT = set((
         '.avi',
         '.mkv',
         '.mp4',
-        ]
+        ))
 
-RIP_TYPE = [
+RIP_TYPE = set((
         'bdrip',
         'blu-ray\.rip',
         'blu-ray',
@@ -31,9 +31,9 @@ RIP_TYPE = [
         'hdrip',
         'hdvdrip',
         'rerip',
-        ]
+        ))
 
-DEF_TYPE = [
+DEF_TYPE = set((
         '1080i',
         '1080p',
         '480p',
@@ -42,15 +42,15 @@ DEF_TYPE = [
         'imax',
         'stv',
         'ws',
-        ]
+        ))
 
-VIDEO_ENCODE = [
+VIDEO_ENCODE = set((
         'xvid',
         'divx',
         'x264',
-        ]
+        ))
 
-AUDIO_ENCODE = [
+AUDIO_ENCODE = set((
         '[0-9]+audio',
         '5.1ch',
         '6ch',
@@ -64,9 +64,9 @@ AUDIO_ENCODE = [
         'dual.audio',
         'dualaudio',
         'mp3',
-        ]
+        ))
 
-RELEASE_TYPE = [
+RELEASE_TYPE = set((
         '[0-9]+cd',
         '[0-9]+th.anniversary',
         'directors.cut',
@@ -98,9 +98,9 @@ RELEASE_TYPE = [
         're',
         'se',
         'ue',
-        ]
+        ))
 
-LANG_TYPE = [
+LANG_TYPE = set((
         'cn',
         'danish',
         'finnish',
@@ -110,7 +110,7 @@ LANG_TYPE = [
         'japan',
         'norwegian',
         'swedish',
-        ]
+        ))
 
 def has_video_files(filenames):
     '''Check if there is video in the filenames'''
