@@ -5,7 +5,7 @@ import nltk
 tokenizer = nltk.tokenize.WordPunctTokenizer()
 
 def update_vec(vec, t):
-    if t == '.':
+    if not t.isalnum():
         return
     if t not in vec:
         vec[t] = 1
