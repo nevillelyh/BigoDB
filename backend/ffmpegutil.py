@@ -14,17 +14,14 @@ def run(args):
     ret = child.wait()
     return ret, out
 
-def evalz(val):
+def intz(val):
     val = val.lstrip('0')
-    if val:
-        return eval(val)
-    else:
-        return 0
+    return int(val) if val else 0
 
 def parse_duration(duration):
     ts, ms = duration.split('.')
     hour, minute, sec = ts.split(':')
-    return evalz(hour)*3600+evalz(minute)*60+evalz(sec)+evalz(ms)/100.0
+    return intz(hour)*3600+intz(minute)*60+intz(sec)+intz(ms)/100.0
 
 def extract_duration(line):
     return line[line.find(':')+1:line.find(',')].strip()
